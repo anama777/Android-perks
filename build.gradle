@@ -1,0 +1,18 @@
+//simple gradle-script for get Mercurial revision number as project version code
+
+def getVersionCode = { ->
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'hg', 'id', '-n'
+        standardOutput = stdout
+    }
+    return stdout.toString().replace("+", "").toInteger()
+}
+
+//...
+
+android {
+    defaultConfig {
+        versionCode getVersionCode()
+        }        
+}
